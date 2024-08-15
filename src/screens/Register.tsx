@@ -3,13 +3,24 @@ import { View, Text, TextInput, StyleSheet } from 'react-native';
 import { ComponentActionButton, ComponentBackButton } from "../components";
 import { colors, styleDefault } from "../styles"
 import { Props } from '../routes/stack.routes';
+import { useNavigation } from '@react-navigation/native';
+import { useAuth } from '../services/contexts/Auth';
 
 
-export const Register = ({navigation}: Props) => {
+export const Register = () => {
+
+    const navigation = useNavigation();
+
+    const {signUp} = useAuth();
 
     const [name, setName] = useState('')
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+
+    function handleRegister(){
+        signUp({name, email, password});
+        navigation.goBack();
+    }
 
     return(
         <View style={styleDefault.containerScreen}>
@@ -28,7 +39,7 @@ export const Register = ({navigation}: Props) => {
                     <TextInput style={styles.inputArea} placeholder="Digite sua senha" value={password} onChangeText={setPassword}secureTextEntry={true} autoCorrect={false} autoCapitalize="none"></TextInput>
                 </View> 
             </View>
-            <ComponentActionButton text={"REGISTRAR"}/>
+            <ComponentActionButton text={"REGISTRAR"} action={() => handleRegister()}/>
             <View style={styleDefault.back}>
                 <ComponentBackButton action={() => navigation.goBack()} />
             </View>

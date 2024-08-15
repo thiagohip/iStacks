@@ -2,13 +2,19 @@ import { useState } from 'react';
 import { View, Text, TextInput, StyleSheet } from 'react-native';
 import { ComponentActionButton, ComponentBackButton } from "../components";
 import { colors, styleDefault } from "../styles"
-import { Props } from '../routes/stack.routes';
+import { useNavigation } from '@react-navigation/native';
+import { useAuth } from '../services/contexts/Auth';
 
 
-export const Login = ({navigation}: Props) => {
+export const Login = () => {
+
+    const navigation = useNavigation();
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+
+    const {signIn} = useAuth();
+
 
     return(
         <View style={styleDefault.containerScreen}>
@@ -24,7 +30,7 @@ export const Login = ({navigation}: Props) => {
                         <TextInput style={styles.inputArea} placeholder="Digite sua senha" value={password} onChangeText={setPassword}secureTextEntry={true} autoCorrect={false} autoCapitalize="none"></TextInput>
                     </View>
                 </View>
-                <ComponentActionButton text={"LOGAR"}/>
+                <ComponentActionButton text={"LOGAR"} action={() => signIn({email, password})}/>
             </View>
             <View style={styleDefault.back}>
                 <ComponentBackButton action={() => navigation.goBack()} />

@@ -2,7 +2,7 @@ import { TouchableOpacity,  Text } from "react-native"
 import { styleDefault } from "../styles"
 
 interface IButton{
-    action: any;
+    action?: any;
     text: string;
 }
 

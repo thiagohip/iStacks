@@ -24,18 +24,27 @@ export type StackProps = {
 
 export type Props = {navigation: ScreenNavigation}
 
-export const MenuStack = () =>{
+export function MenuStack({auth}: {auth: boolean}){
+    
     const Stack = createStackNavigator<MenuStackParam>();
 
-    return(
-        <Stack.Navigator screenOptions={{headerShown: false}}>
-            <Stack.Screen name="StackScreen" component={StackScreen} initialParams={{text: "C++", image: require("../assets/cpp.png")}}/>
-            <Stack.Screen name="AddStackScreen" component={AddStackScreen}/>
-            <Stack.Screen name="RequestStackScreen" component={RequestStackScreen}/>
-            <Stack.Screen name="RegisterStackScreen" component={RegisterStackScreen}/>
-            <Stack.Screen name="LoginScreen" component={LoginScreen}/>
-            <Stack.Screen name="RegisterScreen" component={RegisterScreen}/>
-            <Stack.Screen name="LoginRegisterScreen" component={LoginRegisterScreen}/>
-        </Stack.Navigator>
-    )
+    if(auth){
+        return(
+            <Stack.Navigator screenOptions={{headerShown: false}}>
+                <Stack.Screen name="StackScreen" component={StackScreen} initialParams={{text: "C++", image: require("../assets/cpp.png")}}/>
+                <Stack.Screen name="AddStackScreen" component={AddStackScreen}/>
+                <Stack.Screen name="RequestStackScreen" component={RequestStackScreen}/>
+                <Stack.Screen name="RegisterStackScreen" component={RegisterStackScreen}/>
+            </Stack.Navigator>
+        )
+    }else{
+        return(
+            <Stack.Navigator screenOptions={{headerShown: false}}>
+                <Stack.Screen name="LoginRegisterScreen" component={LoginRegisterScreen}/>
+                <Stack.Screen name="LoginScreen" component={LoginScreen}/>
+                <Stack.Screen name="RegisterScreen" component={RegisterScreen}/>
+            </Stack.Navigator>
+        )
+    }
+
 }

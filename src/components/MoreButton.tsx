@@ -5,7 +5,7 @@ import Animated, { useSharedValue, withSpring } from 'react-native-reanimated';
 
 interface IAddButton{
     isPressedI: boolean
-    setPressedI: React.Dispatch<React.SetStateAction<boolean>>
+    setPressedI?: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 
@@ -20,7 +20,7 @@ export const MoreButton = ({isPressedI, setPressedI}: IAddButton) => {
     }
 
     const onPressed = () => {    
-        setPressedI(!isPressedI);
+        if(setPressedI) {setPressedI(!isPressedI);}
     }
 
     return(

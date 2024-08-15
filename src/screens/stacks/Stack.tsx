@@ -1,13 +1,17 @@
-import {View, Image, Text, StyleSheet} from 'react-native'
+import {View, Image, Text, StyleSheet, FlatList} from 'react-native'
 import {colors, fonts, styleDefault} from '../../styles'
 import { StackProps } from '../../routes/stack.routes';
 import { ComponentTextButton, ComponentMoreButton } from "../../components"
-import { useState } from 'react';
-
+import { useEffect, useState } from 'react';
+import { useAuth } from '../../services/contexts/Auth';
+import { IStacks } from '../../services/data/Stack';
 
 export const Stack = ({navigation, route}: StackProps) => {
 
+    const {signOut, userStacks} = useAuth();
     const [isPressed, setPressed] = useState(false);
+
+    const stacks = userStacks?.stacks;
 
     function overlayController(isPressed:boolean){
         return (isPressed ? <View style={styles.overlay}/> : null)
@@ -16,25 +20,42 @@ export const Stack = ({navigation, route}: StackProps) => {
     function moreActionsController(isPressed:boolean){
         return (isPressed ? 
             <View style={styles.more_actions}>
-                <ComponentTextButton text={"AddStack"} action={() => navigation.navigate("AddStackScreen")}/>
-                <ComponentTextButton text={"RequestStack"} action={() => navigation.navigate("RequestStackScreen")}/>
-                <ComponentTextButton text={"RegisterStackScreen"} action={() => navigation.navigate("RegisterStackScreen")}/>
-                <ComponentTextButton text={"LoginScreen"} action={() => navigation.navigate("LoginScreen")}/>
-                <ComponentTextButton text={"RegisterScreen"} action={() => navigation.navigate("RegisterScreen")}/>
-                <ComponentTextButton text={"LoginRegisterScreen"} action={() => navigation.navigate("LoginRegisterScreen")}/>
+                <ComponentTextButton text={"Adicionar stack"} action={() => navigation.navigate("AddStackScreen")}/>
+                <ComponentTextButton text={"Solicitar stack"} action={() => navigation.navigate("RequestStackScreen")}/>
+                <ComponentTextButton text={"Registrar stack"} action={() => navigation.navigate("RegisterStackScreen")}/>
+                <ComponentTextButton text={"Sair"} action={() => signOut()}/>
             </View>
             : null
         )
     }
 
-    const {text, image} = route.params;
+    interface itemStacks {
+        item: IStacks;
+    }
+
+    const renderItem = ({ item }: itemStacks) => {
+        return (
+            <View style={styles.language}>
+                <Image source={{}}></Image>
+                <Text style={styles.text}>{item.name}</Text>
+            </View>
+        );
+      };
 
     return(
         <View style={styleDefault.containerScreen}>
-            <View style={styles.language}>
-                <Image source={image}></Image>
-                <Text style={styles.text}>{text}</Text>
-            </View>
+<View style={styles.container}>
+    
+                    {
+                    stacks && stacks.length > 0 && (
+                    <FlatList
+                        data={stacks}
+                        renderItem={renderItem}
+                        keyExtractor={(item) => String(item.id)}
+                    />
+                    )}
+    
+</View>
             {overlayController(isPressed)}
             {moreActionsController(isPressed)}
             <ComponentMoreButton isPressedI={isPressed} setPressedI={setPressed}/>
@@ -48,12 +69,13 @@ export const styles = StyleSheet.create({
         backgroundColor: colors.black,
         justifyContent: 'center',
         alignItems: 'center',
+        marginTop: 50,
     },
 
     language: {
       justifyContent: 'center',
       alignItems: 'center',
-      marginBottom: 120
+      flexDirection: 'row'
     },
     
     text: {
@@ -79,3 +101,7 @@ export const styles = StyleSheet.create({
         gap: 8,
     }
 });
+
+function useStack() {
+    throw new Error('Function not implemented.');
+}

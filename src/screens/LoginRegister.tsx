@@ -3,25 +3,21 @@ import { View, Text, TextInput, StyleSheet } from 'react-native';
 import { ComponentActionButton, ComponentBackButton } from "../components";
 import { colors, styleDefault } from "../styles"
 import { Props } from '../routes/stack.routes';
-
+import apiStack from '../services/data/Stack';
 
 export const LoginRegister = ({navigation}: Props) => {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-
+    
     return(
         <View style={styleDefault.containerScreen}>
             <View style={styles.container}>
                 <Text style={styles.title}>iStack</Text>
-                <ComponentActionButton text={"LOGAR"}/>
-                <ComponentActionButton text={"REGISTRAR"}/>
-            </View>
-            <View style={styleDefault.back}>
-                <ComponentBackButton action={() => navigation.goBack()} />
+                <ComponentActionButton text={"LOGAR"} action={() => navigation.navigate("LoginScreen")}/>
+                <ComponentActionButton text={"REGISTRAR"} action={() => navigation.navigate("RegisterScreen")}/>
             </View>
         </View>
-        
     )
 }
 

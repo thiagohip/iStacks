@@ -1,5 +1,6 @@
 import {  useFonts, JosefinSans_400Regular } from '@expo-google-fonts/josefin-sans';
-import Routes from './src/routes';
+import Routes from './src/routes/Routes';
+import { AuthProvider } from './src/services/contexts/Auth';
 
 export default function App() {
 
@@ -12,6 +13,9 @@ export default function App() {
   }
 
   return (
-    <Routes />
+    <AuthProvider>
+      <Routes />
+    </AuthProvider>
+    
   );
 }
